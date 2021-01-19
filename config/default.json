@@ -1,3 +1,4 @@
 {
-    "mongoURI": "mongodb+srv://christoffer:christoffer@mernapp.k8g3n.mongodb.net/MernApp?retryWrites=true&w=majority"
+    "mongoURI": "mongodb+srv://christoffer:christoffer@mernapp.k8g3n.mongodb.net/MernApp?retryWrites=true&w=majority",
+    "jwtSecret": "mysecrettoken"
 }
