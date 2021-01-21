@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-// Check if everyting is correct in user register
-const { check, validationResult } = require('express-validator');
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+// Check if everyting is correct in user register
+const { check, validationResult } = require('express-validator');
 const config = require('config');
 
 //Get the model for user
