@@ -33,6 +33,8 @@ router.post('/', [ auth,
             .not()
             .isEmpty(),
         check('skills', 'Skills is required')
+        .not()
+        .isEmpty()
     ]
   ], 
   async (req, res) => {
@@ -69,6 +71,8 @@ router.post('/', [ auth,
          profileFields.skills = skills.split(',').map(skill => skill.trim());
     }
 
+    console.log(profileFields.skills);
+
     // Build social object
     profileFields.social = {};
     if (youtube) profileFields.social.youtube = youtube;
@@ -97,6 +101,7 @@ router.post('/', [ auth,
 
         await profile.save();
         res.json(profile);
+
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
@@ -117,18 +122,22 @@ router.get('/', async (req, res) => {
     }
 });
 
-// @route GET api/profile/user/:user_id
-//@desc   Get user by user id
+//@route GET api/profile/user/:user_id
+//@desc   Get profile by user id
 //access  Public API
-router.get('/', async (req, res) => {
+router.get('/user/:user_id', async (req, res) => {
     try {
         const profile = await Profile.findOne({ user: req.params.user_id }).populate('user', ['name', 'avatar']);
 
-        if (!profile) return res.status(400).json({ msg: 'There is no profile for this user.'});
+        if (!profile) 
+            return res.status(400).json({ msg: 'Profile not found.'});
         
-        res.json(profiles);
+        res.json(profile);
     } catch (err) {
         console.error(err.message);
+        if (err.kind == 'ObjectId') {
+            return res.status(400).json({ msg: 'Profile not found.'});
+        }
         res.status(500).send('Server Error');
     }
 });
